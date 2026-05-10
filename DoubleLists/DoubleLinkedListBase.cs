@@ -1,4 +1,4 @@
-﻿namespace DoubleList
+﻿namespace DoubleLists
 {
     public class DoubleLinkedListBase<T>
     {
