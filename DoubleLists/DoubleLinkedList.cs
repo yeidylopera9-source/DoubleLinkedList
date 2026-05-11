@@ -1,7 +1,4 @@
 ﻿using Shared;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace DoubleLists;
 
@@ -30,7 +27,7 @@ public class DoubleLinkedList<T> : ILinkedList<T> where T : IComparable<T>
         }
 
         Node<T> current = _head;
-        while (current.Next != null && current.Next.Data.CompareTo(data) < 0)
+        while (current.Next != null && current.Next.Data!.CompareTo(data) < 0)
             current = current.Next;
 
         start.Next = current.Next;
@@ -130,7 +127,7 @@ public class DoubleLinkedList<T> : ILinkedList<T> where T : IComparable<T>
 
         foreach (var pair in count)
         {
-            string label = pair.Key.ToString();
+            string label = pair.Key.ToString()!;
 
             string barrita = new string('*', pair.Value);
 
@@ -144,27 +141,92 @@ public class DoubleLinkedList<T> : ILinkedList<T> where T : IComparable<T>
         Node<T>? current = _head;
         while (current != null)
         {
-            if (current.Data.CompareTo(data) == 0) { Console.WriteLine($"If there is the {data}"); return; }
+            if (current.Data!.CompareTo(data) == 0) { Console.WriteLine($"If there is the {data}"); return; }
             current = current.Next;
         }
         Console.WriteLine($"There is no {data}");
         return;
     }
 
-    public void eliminate(T data, bool all)
+    public void DeleteOn(T data, bool all)
+
     {
-        Node<T>? corrunt = _head;
-        while (corrunt != null)
+        if (_head == null) return;
+
+        while (_head != null && _head.Data!.CompareTo(data) == 0)
         {
-            if (corrunt.Data.CompareTo(data) == 0)
+            _head = _head.Next;
+            if (_head != null)
+                _head.Previous = null;
+            else
+                _tail = null;
+
+            if (!all) return;
+        }
+
+        Node<T>? current = _head;
+
+        while (current != null && current.Next != null)
+        {
+            if (current.Next.Data!.CompareTo(data) == 0)
             {
-                if (corrunt == _head) { _head = corrunt.Next; if (_head != null) _head.Previous = null; else _tail = null; }
-                else if (corrunt == _tail) { _tail = corrunt.Previous; _tail.Next = null; }
-                else { corrunt.Previous.Next = corrunt.Next; corrunt.Next.Previous = corrunt.Previous; }
+                Node<T> nodeToDelete = current.Next;
+                current.Next = nodeToDelete.Next;
+
+                if (current.Next != null)
+                {
+                    current.Next.Previous = current;
+                }
+                else
+                {
+                    _tail = current;
+                }
 
                 if (!all) return;
             }
-            corrunt = corrunt.Next;
+            else
+            {
+                current = current.Next;
+            }
+        }
+    }
+
+    public void DeleteAll(T data, int valAll)
+
+    {
+        if (_head == null) return;
+
+        Node<T>? current = _head;
+
+        while (current != null)
+        {
+            if (current.Data!.CompareTo(data) == 0)
+            {
+                Node<T> toDelete = current;
+
+                current = current.Next;
+
+                if (toDelete == _head)
+                {
+                    _head = toDelete.Next;
+                    if (_head != null) _head.Previous = null;
+                    else _tail = null;
+                }
+                else if (toDelete == _tail)
+                {
+                    _tail = toDelete.Previous;
+                    if (_tail != null) _tail.Next = null;
+                }
+                else
+                {
+                    toDelete.Previous!.Next = toDelete.Next;
+                    toDelete.Next!.Previous = toDelete.Previous;
+                }
+            }
+            else
+            {
+                current = current.Next;
+            }
         }
     }
 

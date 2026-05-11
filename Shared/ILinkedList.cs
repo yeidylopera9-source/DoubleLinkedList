@@ -16,7 +16,9 @@ public interface ILinkedList<T>
 
     void showGraph(T data);
 
-    void eliminate(T data, bool all);
+    void DeleteAll(T data, int all);
 
     string ToString();
+
+    void DeleteOn(T data, bool all);
 }

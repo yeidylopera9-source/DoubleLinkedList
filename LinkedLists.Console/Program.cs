@@ -1,4 +1,5 @@
 ﻿using DoubleLists;
+using System.Collections;
 
 var list = new DoubleLinkedList<string>();
 var option = string.Empty;
@@ -30,7 +31,6 @@ do
             break;
 
         case "5":
-            Console.Write("Show: ");
             value = Console.ReadLine() ?? string.Empty;
             list.showFashions(value);
             break;
@@ -47,12 +47,12 @@ do
 
         case "8":
             value = Console.ReadLine() ?? string.Empty;
-            list.eliminate(value, false);
+            list.DeleteOn(value, true);
             break;
 
         case "9":
             value = Console.ReadLine() ?? string.Empty;
-            list.eliminate(value, true);
+            if (int.TryParse(Console.ReadLine(), out int valAll)) list.DeleteAll(value, valAll);
             break;
 
         case "0":
