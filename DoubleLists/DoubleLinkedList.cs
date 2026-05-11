@@ -131,7 +131,7 @@ public class DoubleLinkedList<T> : ILinkedList<T> where T : IComparable<T>
 
             string barrita = new string('*', pair.Value);
 
-            Console.WriteLine($"{label.PadRight(15)}  {barrita}");
+            Console.WriteLine($"{label.PadRight(5)} {barrita}");
         }
         return;
     }
